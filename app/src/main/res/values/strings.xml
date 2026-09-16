@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Impresso</string>
+    <string name="select_file_title">Select a file to print</string>
+    <string name="select_file_description">Choose a supported file before continuing to printer selection.</string>
+    <string name="choose_file">Choose a file</string>
+    <string name="choose_another_file">Choose another file</string>
+    <string name="continue_to_printers">Continue</string>
+    <string name="continue_requires_file">Choose a file to continue.</string>
+    <string name="selected_file">Selected file</string>
+    <string name="selected_file_type">Type: %1$s</string>
+    <string name="validating_file">Checking the selected file...</string>
+    <string name="file_type_pdf">PDF document</string>
+    <string name="file_type_jpeg">JPEG image</string>
+    <string name="file_type_png">PNG image</string>
+    <string name="file_type_gif">GIF image</string>
+    <string name="file_type_webp">WebP image</string>
+    <string name="file_type_docx">Word document</string>
+    <string name="file_type_odt">OpenDocument text</string>
+    <string name="file_error_unsupported">This file type is not supported. Choose a PDF, image, DOCX, or ODT file.</string>
+    <string name="file_error_unavailable">This file is no longer available. Choose another file.</string>
+    <string name="file_error_metadata">This file cannot be identified. Choose another file.</string>
+    <string name="file_error_picker_unavailable">A file picker is not available on this device. Try again after installing a file manager.</string>
+    <string name="printer_discovery_placeholder_title">Printer discovery</string>
+    <string name="printer_discovery_placeholder_description">Printer discovery will be available in the next step.</string>
+    <string name="printer_discovery_selected_file">Selected file: %1$s</string>
 </resources>
