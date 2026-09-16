@@ -15,6 +15,8 @@ Use this file as the entry point for project documentation.
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Architectural principles, current baseline, and decision rules. | A structural or cross-cutting decision changes. |
 | [DEVELOPPEMENT.md](DEVELOPPEMENT.md) | Development workflow, coding, testing, and review practices. | Team practices or tooling change. |
 | [spec/](spec/) | Feature specifications and acceptance criteria. | A feature is planned, clarified, or materially changed. |
+| [spec/product-overview.md](spec/product-overview.md) | General product specification and product-level acceptance criteria. | Product scope, goals, non-goals, or global behavior is clarified. |
+| [spec/backlog.md](spec/backlog.md) | Prioritized implementation stories and functional validation checklist. | Selecting and implementing a product story. |
 
 ## Working Rules
 
