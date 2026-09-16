@@ -21,6 +21,7 @@ Run the following commands for local validation:
 - Keep changes minimal and focused on the requested behavior. Do not include unrelated refactoring.
 - Obtain explicit approval before adding a dependency.
 - Define all user-facing strings in Android string resources; do not hard-code them in application code.
+- Document technical interfaces and DTOs with comments that explain their intent, never their code contents.
 - Configure and run ktlint and detekt for Kotlin style and static analysis. Their Gradle integration and commands must be documented when introduced.
 
 ## Testing
