@@ -15,6 +15,12 @@ Run the following commands for local validation:
 ./gradlew test
 ```
 
+## Implementation Plans
+
+Implementation plans for features belong in the top-level `plan/` directory. Each
+plan should reference the relevant specification under `spec/` and describe the
+architecture, implementation sequence, testing strategy, and verification criteria.
+
 ## Implementation Practices
 
 - Write all new application and test code in Kotlin.
