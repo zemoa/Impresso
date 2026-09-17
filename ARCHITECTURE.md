@@ -74,8 +74,9 @@ The exact package and class structure belongs in feature implementation plans un
 
 - Screen state is owned by the relevant presentation component.
 - The active standalone print flow owns its transient selection and configuration.
-- Printer discovery is owned by an application-level discovery component so it can
-  begin before the user reaches printer selection.
+- Printer discovery is owned by an application-level discovery component, but remains
+  idle at application launch. The later printer-selection feature explicitly starts it to
+  avoid an unsolicited operating-system local-network dialog.
 - Printer discovery must not block file selection or file validation.
 - Cross-screen handoff uses application-defined data contracts rather than leaking
   platform implementation details through navigation.
@@ -139,9 +140,9 @@ the printing flow.
 
 ### Parallel Printer Discovery
 
-Start printer discovery at application startup through an application-level component.
-Discovery runs in parallel with file selection to reduce perceived latency. File
-selection remains usable when discovery is still running, fails, or returns no printers.
+Keep printer discovery idle at application startup. The later printer-selection feature
+starts it explicitly; no printer-search or printer-selection popup is displayed during
+application launch. File selection remains independent of printer availability.
 
 Discovery-specific protocols, permissions, timeouts, retries, and empty states belong
 to the IMP-03 and IMP-05 specifications and implementation plans.

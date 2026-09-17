@@ -5,9 +5,11 @@
 Users should be able to print without manually entering printer information. Impresso
 automatically discovers available printers to reduce setup time.
 
-Discovery starts when the application opens and runs in the background. It provides
-IMP-04, the printer-selection feature, with an identifiable list of printers and their
-availability state.
+Printer discovery is prepared by the application but is not started automatically. This
+avoids triggering the operating system's local-network connection dialog before the user
+has explicitly entered the printer flow. IMP-04 will start discovery at the appropriate
+user-controlled point and consume the identifiable list of printers and their availability
+state.
 
 The MVP targets the Epson XP-6000 Series, while the discovery contract must remain
 extensible to other brands and protocols.
@@ -16,7 +18,7 @@ extensible to other brands and protocols.
 
 ### Included
 
-- Automatic discovery when the application starts.
+- Discovery infrastructure ready for the later printer-selection flow.
 - Discovery on the local Wi-Fi network.
 - Background execution that does not block file selection.
 - Progressive display of results as printers are discovered.
@@ -68,7 +70,7 @@ extensible to other brands and protocols.
 
 ### Initial discovery
 
-1. The user opens the application.
+1. The application opens without starting local-network discovery.
 2. Impresso checks whether the device is connected to Wi-Fi.
 3. If Wi-Fi is available, Impresso starts discovery in the background.
 4. Each discovered printer is immediately added to the list if it is not already
@@ -76,7 +78,9 @@ extensible to other brands and protocols.
 5. Discovery ends when no more results are received or after 30 seconds at the latest.
 6. Results remain available in memory for the session.
 
-Initial discovery must not block file selection or navigation.
+The application must not start local-network discovery, display a popup, or require user
+interaction at startup. The later printer-selection feature will explicitly start
+discovery.
 
 ### Viewing results
 
@@ -99,7 +103,7 @@ running. Results already discovered remain available when the user returns.
 ## 6. Business rules
 
 1. IMP-03 covers the local Wi-Fi network; Wi-Fi Direct belongs to IMP-06.
-2. Discovery starts when the application opens.
+2. Discovery starts only when the later printer-selection flow explicitly requests it.
 3. If there is no Wi-Fi connection, discovery fails immediately.
 4. A discovery run cannot last longer than 30 seconds.
 5. Results are displayed as they are discovered.
@@ -146,8 +150,10 @@ running. Results already discovered remain available when the user returns.
 
 ### Startup and execution
 
-- **Given** the application is open and the device is connected to Wi-Fi, **When** the
-  session starts, **Then** printer discovery starts automatically.
+- **Given** the application opens, **Then** no local-network discovery or printer popup
+  is initiated.
+- **Given** the printer-selection flow explicitly requests discovery, **Then** the
+  coordinator can start the local scan.
 - **Given** discovery is running, **When** the user selects a file, **Then** file
   selection remains usable.
 - **Given** discovery is running, **When** the user leaves the printer screen, **Then**

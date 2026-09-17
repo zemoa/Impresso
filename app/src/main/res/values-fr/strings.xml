@@ -1,0 +1,12 @@
+<resources>
+    <string name="printer_discovery_title">Imprimantes disponibles</string>
+    <string name="printer_discovery_description">Impresso recherche des imprimantes compatibles sur votre réseau Wi-Fi local.</string>
+    <string name="printer_discovery_loading">Recherche d’imprimantes...</string>
+    <string name="printer_discovery_wifi_failure">Connectez-vous au Wi-Fi, puis relancez la découverte d’imprimantes.</string>
+    <string name="printer_discovery_no_results">Aucune imprimante compatible n’a été trouvée sur ce réseau Wi-Fi.</string>
+    <string name="retry_printer_discovery">Relancer la découverte</string>
+    <string name="printer_discovery_model">Modèle : %1$s</string>
+    <string name="printer_discovery_address">Adresse réseau : %1$s</string>
+    <string name="printer_discovery_active">Disponible</string>
+    <string name="printer_discovery_inactive">Indisponible</string>
+</resources>
