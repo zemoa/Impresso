@@ -14,7 +14,7 @@ This backlog is derived from [product-overview.md](product-overview.md). Priorit
 | IMP-06 | P1 | As a user, I want to print through Wi-Fi Direct when supported. | A compatible Wi-Fi Direct printer can be discovered and selected. The document can be sent without a conventional local network. |
 | IMP-07 | P0 | As a user, I want to submit a print job using default settings. | I can submit the file without configuring advanced settings. Printing is successful once the job has been sent to the printer. |
 | IMP-08 | P1 | As a user, I want to access advanced settings before printing. | Advanced settings are accessible from the print flow. They do not complicate the default flow. |
-| IMP-09 | P0 | As a user, I want to be informed when the selected printer is unavailable. | Submission is refused or clearly reported. I can return to printer selection or retry. |
+| IMP-09 | P0 | As a user, I want to be informed when the selected printer is unavailable. | [Functional specification](06-report-unavailable-selected-printer.md). Submission is blocked or clearly reported before acceptance, and I can return to printer selection. |
 | IMP-10 | P0 | As a user, I want to view the status of a submitted print job. | The available job status is displayed. Missing status information is distinguished from an error. |
 | IMP-11 | P0 | As a user, I want to be informed when the printer reports a problem. | The problem reported by the printer is clearly communicated. |
 | IMP-12 | P0 | As a user, I want to print through the Android system print flow. | Impresso is available in Android's print flow. A document submitted through that flow can be selected and sent using the same printing capabilities. |
