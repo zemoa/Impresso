@@ -1,232 +1,214 @@
-# IMP-09 — Signaler qu'une imprimante sélectionnée est indisponible
+# IMP-09 — Report an Unavailable Selected Printer
 
-## 1. Contexte et objectif
+## 1. Context and objective
 
-Après la sélection d'une imprimante, celle-ci peut devenir inutilisable avant le
-démarrage de la soumission. IMP-09 empêche alors l'envoi vers cette imprimante et
-guide l'utilisateur vers une autre sélection.
+After selecting a printer, the printer may become unusable before submission starts.
+IMP-09 prevents sending to that printer and guides the user toward another selection.
 
-L'objectif du MVP est de ne jamais utiliser une imprimante dont l'indisponibilité est
-connue avant la soumission. La fonctionnalité reste locale et ne déclenche aucune
-notification système.
+The MVP objective is to never use a printer known to be unavailable before submission.
+The feature remains local and does not trigger system notifications.
 
-## 2. Périmètre
+## 2. Scope
 
-### Inclus
+### Included
 
-- Contrôle de disponibilité au moment de l'action **Imprimer**.
-- Utilisation des mises à jour de disponibilité fournies par IMP-03 pour désactiver
-  immédiatement l'action **Imprimer**.
-- Blocage de l'envoi lorsque la disponibilité est inconnue ou négative au moment du
-  clic.
-- Boîte de dialogue bloquante indiquant que l'imprimante n'est plus disponible.
-- Affichage du nom de l'imprimante lorsque celui-ci est disponible.
-- Action **Choisir une autre imprimante** renvoyant vers IMP-04.
-- Annulation de la sélection courante lorsque l'imprimante devient indisponible.
+- Checking availability when the user chooses **Print**.
+- Using availability updates provided by IMP-03 to immediately disable **Print**.
+- Blocking submission when availability is unknown or negative at click time.
+- Showing a blocking dialog stating that the printer is no longer available.
+- Showing the printer name when available.
+- Providing **Choose another printer**, returning to IMP-04.
+- Clearing the current selection when the printer becomes unavailable.
 
-### Dépendances
+### Dependencies
 
-- IMP-03 fournit l'état observable de disponibilité et ses mises à jour.
-- IMP-04 réalise la revalidation à l'action **Continuer**, conserve l'imprimante
-  indisponible visible et non sélectionnable, et reçoit le retour de ce parcours.
-- IMP-07 définit le démarrage de la soumission et prend le relais à partir de cette
-  frontière.
-- Le mécanisme global de traduction de l'application fournit les versions anglaise
-  et française des textes.
+- IMP-03 provides the observable availability state and its updates.
+- IMP-04 rechecks availability on **Continue**, keeps the unavailable printer visible and
+  non-selectable, and receives the return from this flow.
+- IMP-07 defines the start of submission and takes over from that boundary.
+- The application's global translation mechanism provides English and French strings.
 
-### Hors périmètre
+### Out of scope
 
-- Découverte ou re-découverte des imprimantes.
-- Nouvelle vérification périodique indépendante d'IMP-03.
-- Réessai avec la même imprimante.
-- Sélection ou gestion des imprimantes, qui appartiennent à IMP-04.
-- Configuration avancée, soumission effective et suivi du job.
-- Problèmes signalés après acceptation du job, qui appartiennent à IMP-11.
-- Notifications système, cloud, Internet, comptes et impression distante.
+- Discovering or rediscovering printers.
+- A new periodic check independent from IMP-03.
+- Retrying with the same printer.
+- Selecting or managing printers, which belong to IMP-04.
+- Advanced configuration, effective submission, and job tracking.
+- Problems reported after job acceptance, which belong to IMP-11.
+- System notifications, cloud, Internet, accounts, and remote printing.
 - Wi-Fi Direct.
 
-## 3. Personae et rôles
+## 3. Personas and roles
 
-- **Utilisateur particulier :** sélectionne une imprimante et tente d'imprimer.
-- **IMP-03 :** fournit les mises à jour de disponibilité.
-- **IMP-04 :** possède la sélection d'imprimante et permet d'en choisir une autre.
-- **IMP-07 :** possède la soumission à partir du moment où elle a démarré.
-- **IMP-11 :** possède les problèmes rapportés après acceptation du job.
+- **Home user:** selects a printer and attempts to print.
+- **IMP-03:** provides availability updates.
+- **IMP-04:** owns printer selection and allows selecting another printer.
+- **IMP-07:** owns submission from the moment it starts.
+- **IMP-11:** owns problems reported after job acceptance.
 
 ## 4. User stories
 
-- En tant qu'utilisateur, je veux être empêché d'utiliser une imprimante indisponible
-  afin de ne pas perdre de temps ou tenter un envoi voué à l'échec.
-- En tant qu'utilisateur, je veux comprendre pourquoi l'impression est bloquée afin de
-  pouvoir choisir une autre imprimante.
+- As a user, I want to be prevented from using an unavailable printer so that I do not
+  waste time or attempt a submission that cannot succeed.
+- As a user, I want to understand why printing is blocked so that I can choose another
+  printer.
 
-## 5. Parcours fonctionnels
+## 5. Functional journeys
 
-### Parcours nominal
+### Nominal journey
 
-1. L'utilisateur arrive sur l'écran d'impression avec un fichier valide et une
-   imprimante sélectionnée.
-2. L'imprimante est signalée comme disponible.
-3. L'action **Imprimer** est active.
-4. L'utilisateur appuie sur **Imprimer**.
-5. IMP-09 vérifie que la disponibilité est positive.
-6. Le contrôle étant positif, IMP-07 peut démarrer la soumission.
+1. The user reaches the print screen with a valid file and a selected printer.
+2. The printer is reported as available.
+3. **Print** is enabled.
+4. The user chooses **Print**.
+5. IMP-09 checks that availability is positive.
+6. The positive check allows IMP-07 to start submission.
 
-### Imprimante devenue indisponible avant le clic
+### Printer becomes unavailable before the click
 
-1. IMP-03 signale que l'imprimante n'est plus disponible.
-2. La sélection courante est annulée.
-3. L'action **Imprimer** est désactivée.
-4. L'utilisateur revient à IMP-04 pour choisir une autre imprimante.
+1. IMP-03 reports that the printer is no longer available.
+2. The current selection is cleared.
+3. **Print** is disabled.
+4. The user returns to IMP-04 to choose another printer.
 
-### Indisponibilité détectée au clic
+### Unavailability detected at click time
 
-1. L'utilisateur appuie sur **Imprimer** alors que l'état est négatif ou inconnu.
-2. La soumission est bloquée.
-3. Une boîte de dialogue bloquante affiche un message simple et le nom de
-   l'imprimante s'il est disponible.
-4. L'utilisateur choisit **Choisir une autre imprimante**.
-5. Impresso revient à IMP-04.
+1. The user chooses **Print** while the state is negative or unknown.
+2. Submission is blocked.
+3. A blocking dialog shows a simple message and the printer name when available.
+4. The user chooses **Choose another printer**.
+5. Impresso returns to IMP-04.
 
-## 6. Règles métier
+## 6. Business rules
 
-1. Une imprimante connue comme indisponible ne peut pas être utilisée.
-2. Une disponibilité inconnue est traitée comme non autorisée pour l'envoi.
-3. La disponibilité fournie par IMP-03 peut désactiver **Imprimer** avant toute action
-   utilisateur.
-4. Une vérification est effectuée au clic sur **Imprimer**.
-5. Si cette vérification échoue, aucun envoi n'est démarré par IMP-07.
-6. La boîte de dialogue est bloquante et propose **Choisir une autre imprimante**.
-7. L'indisponibilité annule la sélection courante.
-8. L'imprimante indisponible reste visible dans IMP-04, mais n'est pas sélectionnable.
-9. Le retour vers IMP-04 ne lance pas automatiquement une nouvelle découverte.
-10. IMP-09 s'applique jusqu'au démarrage de la soumission. Après cette frontière, IMP-07
-    et IMP-11 s'appliquent selon leurs propres règles.
-11. Aucune notification système n'est envoyée.
-12. Aucun document ou état d'imprimante n'est transmis hors du réseau local.
+1. A printer known to be unavailable cannot be used.
+2. Unknown availability is treated as not authorized for submission.
+3. Availability updates from IMP-03 may disable **Print** before any user action.
+4. A check is performed when the user chooses **Print**.
+5. If that check fails, IMP-07 must not start submission.
+6. The dialog blocks the underlying screen and offers **Choose another printer**.
+7. Unavailability clears the current selection.
+8. The unavailable printer remains visible in IMP-04 but cannot be selected.
+9. Returning to IMP-04 does not automatically start a new discovery.
+10. IMP-09 applies until submission starts. After that boundary, IMP-07 and IMP-11 apply
+    according to their own rules.
+11. No system notification is sent.
+12. No document or printer state is transmitted outside the local network.
 
-## 7. Cas nominaux, alternatifs et erreurs
+## 7. Nominal, alternative, and error cases
 
-### Cas nominaux
+### Nominal cases
 
-- L'imprimante est disponible au clic : l'envoi est transmis à IMP-07.
-- L'imprimante devient indisponible avant le clic : l'action est désactivée et la
-  sélection est annulée.
+- The printer is available at click time: submission is handed off to IMP-07.
+- The printer becomes unavailable before the click: the action is disabled and the
+  selection is cleared.
 
-### Cas alternatifs
+### Alternative cases
 
-- Le nom de l'imprimante est absent : le message est affiché sans nom.
-- L'utilisateur choisit une autre imprimante dans IMP-04 : le parcours reprend selon
-  les règles de cette feature.
-- Une nouvelle imprimante devient indisponible : le même comportement s'applique.
+- The printer name is unavailable: the message is shown without a name.
+- The user chooses another printer in IMP-04: the journey resumes according to that
+  feature's rules.
+- Another selected printer becomes unavailable: the same behavior applies.
 
-### Cas d'erreur
+### Error cases
 
-- Disponibilité négative au clic : soumission refusée et boîte de dialogue affichée.
-- Disponibilité inconnue au clic : soumission refusée et même boîte de dialogue.
-- Problème après démarrage de la soumission : hors IMP-09 ; voir IMP-07 et IMP-11.
+- Negative availability at click time: submission is refused and the dialog is shown.
+- Unknown availability at click time: submission is refused and the same dialog is shown.
+- A problem after submission starts: out of scope for IMP-09; see IMP-07 and IMP-11.
 
-## 8. Critères d'acceptation
+## 8. Acceptance criteria
 
-- **Given** une imprimante est signalée indisponible avant le clic sur **Imprimer**,
-  **When** l'état est reçu, **Then** **Imprimer** est désactivé et la sélection est
-  annulée.
-- **Given** une imprimante est indisponible, **When** l'utilisateur consulte IMP-04,
-  **Then** elle reste visible, marquée indisponible et non sélectionnable.
-- **Given** la disponibilité de l'imprimante est inconnue, **When** l'utilisateur
-  appuie sur **Imprimer**, **Then** l'envoi est bloqué.
-- **Given** la disponibilité est négative ou inconnue, **When** l'envoi est bloqué,
-  **Then** une boîte de dialogue bloquante est affichée.
-- **Given** la boîte de dialogue est affichée, **When** l'utilisateur choisit
-  **Choisir une autre imprimante**, **Then** Impresso revient à IMP-04.
-- **Given** le nom de l'imprimante est disponible, **When** la boîte de dialogue est
-  affichée, **Then** le nom apparaît dans le message.
-- **Given** l'imprimante est disponible, **When** l'utilisateur appuie sur
-  **Imprimer**, **Then** IMP-09 autorise le handoff vers IMP-07.
-- **Given** la soumission a démarré, **When** un problème est rapporté ensuite,
-  **Then** IMP-09 ne redéfinit pas le comportement et IMP-11 prend le relais.
-- **Given** une indisponibilité est détectée, **Then** aucune notification système,
-  aucun compte et aucun service distant ne sont requis.
+- **Given** a printer is reported unavailable before the user chooses **Print**, **When**
+  the state is received, **Then** **Print** is disabled and the selection is cleared.
+- **Given** a printer is unavailable, **When** the user views IMP-04, **Then** it remains
+  visible, is marked unavailable, and cannot be selected.
+- **Given** the printer availability is unknown, **When** the user chooses **Print**,
+  **Then** submission is blocked.
+- **Given** availability is negative or unknown, **When** submission is blocked, **Then**
+  a blocking dialog is displayed.
+- **Given** the dialog is displayed, **When** the user chooses **Choose another printer**,
+  **Then** Impresso returns to IMP-04.
+- **Given** the printer name is available, **When** the dialog is displayed, **Then** the
+  name appears in the message.
+- **Given** the printer is available, **When** the user chooses **Print**, **Then** IMP-09
+  authorizes the handoff to IMP-07.
+- **Given** submission has started, **When** a problem is reported afterward, **Then**
+  IMP-09 does not redefine the behavior and IMP-11 takes over.
+- **Given** unavailability is detected, **Then** no system notification, account, or
+  remote service is required.
 
-## 9. Données et états
+## 9. Data and states
 
-### Données consommées
+### Consumed data
 
-- Identifiant de l'imprimante sélectionnée.
-- Nom de l'imprimante, lorsqu'il est disponible.
-- État de disponibilité fourni par IMP-03.
-- Résultat de la vérification au clic sur **Imprimer**.
+- Identifier of the selected printer.
+- Printer name, when available.
+- Availability state provided by IMP-03.
+- Result of the check performed when the user chooses **Print**.
 
-### Données produites
+### Produced data
 
-- Sélection courante annulée en cas d'indisponibilité.
-- Handoff autorisé vers IMP-07 ou refus d'envoi.
-- Demande de retour vers IMP-04.
+- Current selection cleared when the printer is unavailable.
+- Handoff authorized to IMP-07 or submission refused.
+- Request to return to IMP-04.
 
-### États
+### States
 
-- `available` : l'impression peut être tentée.
-- `unavailable` : l'impression est bloquée, la sélection est annulée.
-- `unknown` : l'impression est bloquée par prudence.
-- `checking` : vérification en cours au clic sur **Imprimer**.
-- `redirect-to-selection` : la boîte de dialogue est traitée et le retour vers IMP-04
-  est demandé.
-- `submission-started` : IMP-07 a pris le relais ; IMP-09 est terminé pour ce parcours.
+- `available`: printing may be attempted.
+- `unavailable`: printing is blocked and the selection is cleared.
+- `unknown`: printing is blocked as a precaution.
+- `checking`: availability is being checked after **Print** is chosen.
+- `redirect-to-selection`: the dialog has been handled and a return to IMP-04 is requested.
+- `submission-started`: IMP-07 has taken over; IMP-09 is complete for this journey.
 
-## 10. Hors périmètre
+## 10. Out of scope
 
-La découverte, la sélection, la persistance et la nouvelle disponibilité des imprimantes
-restent respectivement définies par IMP-03 et IMP-04. La transmission, le retry, le
-suivi du job et les problèmes post-acceptation restent définis par IMP-07, IMP-10 et
-IMP-11. Les réglages avancés, Wi-Fi Direct et les notifications système ne sont pas
-ajoutés par IMP-09.
+Printer discovery, selection, persistence, and printer availability management remain
+defined by IMP-03 and IMP-04. Transmission, retry, job tracking, and post-acceptance
+problems remain defined by IMP-07, IMP-10, and IMP-11. Advanced settings, Wi-Fi Direct,
+and system notifications are not added by IMP-09.
 
-## 11. Intégration au produit
+## 11. Product integration
 
-- **IMP-03 — dépendance :** expose les mises à jour d'état utilisées pour désactiver
-  l'action.
-- **IMP-04 — dépendance :** fournit la sélection initiale, reçoit le retour et conserve
-  l'imprimante indisponible visible mais non sélectionnable.
-- **IMP-07 — dépendance :** reçoit uniquement une imprimante dont le contrôle IMP-09 a
-  autorisé le démarrage de soumission.
-- **IMP-11 — hors périmètre :** traite les problèmes après acceptation du job.
-- **Localisation globale — dépendance :** fournit les traductions des textes de la
-  boîte de dialogue et de l'action.
+- **IMP-03 — dependency:** exposes the availability updates used to disable the action.
+- **IMP-04 — dependency:** provides the initial selection, receives the return, and keeps
+  the unavailable printer visible but non-selectable.
+- **IMP-07 — dependency:** receives only a printer for which IMP-09 authorized submission.
+- **IMP-11 — out of scope:** handles problems after job acceptance.
+- **Global localization — dependency:** provides translations for the dialog and action.
 
-## 12. Dépendances, handoffs et impacts fonctionnels
+## 12. Dependencies, handoffs, and functional impacts
 
-### Handoff entrant
+### Incoming handoff
 
-IMP-09 reçoit d'IMP-04 une imprimante sélectionnée et l'état courant fourni par IMP-03.
+IMP-09 receives a selected printer from IMP-04 and the current availability state from
+IMP-03.
 
-### Handoff sortant
+### Outgoing handoff
 
-- Si la vérification est positive, IMP-09 autorise le passage vers IMP-07.
-- Sinon, IMP-09 annule la sélection, affiche la boîte de dialogue et demande le retour
-  vers IMP-04.
+- If the check succeeds, IMP-09 authorizes the handoff to IMP-07.
+- Otherwise, IMP-09 clears the selection, displays the dialog, and requests a return to
+  IMP-04.
 
-### Impacts fonctionnels
+### Functional impacts
 
-- IMP-03 doit rendre ses changements de disponibilité observables par l'écran
-  d'impression.
-- IMP-04 doit accepter le retour sans relancer automatiquement la découverte.
-- IMP-07 doit distinguer l'absence d'autorisation avant soumission d'un échec survenu
-  après son démarrage.
-- Les textes doivent suivre la localisation globale de l'application.
+- IMP-03 must expose availability changes to the print screen.
+- IMP-04 must accept the return without automatically restarting discovery.
+- IMP-07 must distinguish a pre-submission refusal from a failure after submission starts.
+- Text must follow the application's global localization mechanism.
 
-## 13. Questions ouvertes et décisions à confirmer
+## 13. Open questions and decisions to confirm
 
-### Décisions confirmées
+### Confirmed decisions
 
-- L'objectif est d'empêcher l'utilisation d'une imprimante inutilisable.
-- Le contrôle est effectué au clic sur **Imprimer** et les contrôles IMP-04 sont
-  conservés.
-- L'état inconnu bloque l'envoi.
-- La boîte de dialogue est bloquante et renvoie vers IMP-04.
-- La sélection courante est annulée.
-- Aucun retry avec la même imprimante ni aucune notification système n'est prévu dans
-  le MVP.
+- The objective is to prevent use of an unusable printer.
+- The check occurs when **Print** is chosen, while IMP-04 checks are retained.
+- Unknown availability blocks submission.
+- The dialog is blocking and returns to IMP-04.
+- The current selection is cleared.
+- No retry with the same printer or system notification is planned for the MVP.
 
-### Questions ouvertes
+### Open questions
 
-Aucune question fonctionnelle bloquante.
+No blocking functional question remains.
