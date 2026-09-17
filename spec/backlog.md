@@ -19,7 +19,7 @@ This backlog is derived from [product-overview.md](product-overview.md). Priorit
 | IMP-11 | P0 | As a user, I want to be informed when the printer reports a problem. | The problem reported by the printer is clearly communicated. |
 | IMP-12 | P0 | As a user, I want to print through the Android system print flow. | Impresso is available in Android's print flow. A document submitted through that flow can be selected and sent using the same printing capabilities. |
 | IMP-13 | P0 | As a user, I want to use the app without an account or server. | No account is required. Printing works without a remote or cloud service. |
-| IMP-14 | P0 | As a user, I want my documents to remain on the local network. | No document or print data is transmitted outside the local network. |
+| IMP-14 | P0 | As a user, I want my documents to remain on the local network. | [Functional specification](14-keep-documents-local.md). No document or print data is transmitted outside the local network. |
 | IMP-15 | P1 | As the product team, we want to add brands, protocols, formats, and connection types over time. | Initial Epson support does not block support for other printers. Printer implementations and connection mechanisms can evolve independently. |
 
 ## Recommended Order
