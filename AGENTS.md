@@ -24,3 +24,4 @@ Use this file as the entry point for project documentation.
 - Do not invent product requirements. Record unresolved questions in the relevant specification.
 - Keep documentation aligned with shipped behavior and architectural decisions.
 - Treat specifications as the source of truth for feature behavior; treat code as the source of truth for the current implementation.
+- Name specification files using the `XX-readable-name.md` convention; see [spec/README.md](spec/README.md) for details.

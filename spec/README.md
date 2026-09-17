@@ -4,13 +4,13 @@ This directory contains feature specifications. A specification defines the inte
 
 ## Naming
 
-Use lowercase kebab-case names:
+Name specification files with a two-digit ordering prefix followed by a lowercase kebab-case, readable name:
 
 ```text
-spec/<feature-name>.md
+spec/XX-readable-name.md
 ```
 
-Example: `spec/create-impression.md`.
+Example: `spec/01-create-impression.md`.
 
 ## Required Content
 
