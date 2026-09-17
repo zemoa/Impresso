@@ -6,7 +6,7 @@ This backlog is derived from [product-overview.md](product-overview.md). Priorit
 
 | ID | Priority | Story | Acceptance criteria |
 | --- | --- | --- | --- |
-| IMP-01 | P0 | As a user, I want to select a document or image so that I can print it. | [Functional specification](select-printable-file.md). PDF, image, DOCX, and ODF files are accepted. The selected file is visible before submission. |
+| IMP-01 | P0 | As a user, I want to select a document or image so that I can print it. | [Functional specification](01-select-printable-file.md). PDF, image, DOCX, and ODF files are accepted. The selected file is visible before submission. |
 | IMP-02 | P0 | As a user, I want to print through the app's standalone flow. | I can start a print job without another app. The default flow remains simple. |
 | IMP-03 | P0 | As a user, I want the app to automatically discover printers on my local network. | Compatible printers available on the local network are displayed. No Internet search is performed. |
 | IMP-04 | P0 | As a user, I want to select a discovered printer. | The list provides enough information to distinguish printers. I can select a printer before submission. |
