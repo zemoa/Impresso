@@ -8,6 +8,10 @@ Use this file as the entry point for project documentation.
 2. Read [DEVELOPPEMENT.md](DEVELOPPEMENT.md) before implementing, reviewing, or testing code.
 3. Read [spec/README.md](spec/README.md) before implementing a feature. Locate and follow the relevant feature specification when one exists.
 
+## GitHub Project
+
+Track backlog issues in [GitHub Project: Impresso](https://github.com/users/zemoa/projects/2). Before starting a backlog story, consult its linked issue for its current status and priority, and keep the project item aligned with any status change.
+
 ## Documentation Map
 
 | Document | Purpose | Update when |
